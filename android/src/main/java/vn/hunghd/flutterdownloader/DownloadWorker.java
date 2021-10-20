@@ -220,12 +220,12 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
         taskDao.updateTask(getId().toString(), DownloadStatus.RUNNING, task.progress);
 
         //automatic resume for partial files. (if the workmanager unexpectedly quited in background)
-        String saveFilePath = savedDir + File.separator + filename;
+/*        String saveFilePath = savedDir + File.separator + filename;
         File partialFile = new File(saveFilePath);
         if (partialFile.exists()) {
             isResume = true;
             log("exists file for "+ filename + "automatic resuming...");
-        }
+        }*/
 
         try {
             downloadFile(context, url, savedDir, filename, headers, isResume);
@@ -488,11 +488,12 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
         File newFile = new File(savedDir, filename);
         try {
             boolean rs = newFile.createNewFile();
-            if(rs) {
+            return newFile;
+  /*          if(rs) {
                 return newFile;
             } else {
                 logError("It looks like you are trying to save file in public storage but not setting 'saveInPublicStorage' to 'true'");
-            }
+            }*/
         } catch (IOException e) {
             e.printStackTrace();
             logError("Create a file using java.io API failed ");
